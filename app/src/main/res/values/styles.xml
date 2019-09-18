@@ -4,10 +4,31 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/blue</item>
+        <item name="colorAccent">@color/blue</item>
     </style>
     <style name="mycheckbox" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/cb_select</item>
+    </style>
+    <style name="CommontMyDialog" parent="@android:style/Theme.Holo.Dialog">
+        <!-- 是否有边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!--是否在悬浮Activity之上  -->
+        <item name="android:windowIsFloating">true</item>
+        <!--标题  -->
+        <item name="android:windowNoTitle">@null</item>
+        <!--阴影  -->
+        <item name="android:windowIsTranslucent">true</item><!--半透明-->
+        <!-- 进入和退出的动画 -->
+        <item name="android:windowAnimationStyle">@style/CommontMyDialogAnimation</item>
+        <!-- 点外边可以消失  -->
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <style name="CommontMyDialogAnimation">
+        <!--进入 -->
+        <item name="android:windowEnterAnimation">@anim/commont_dialog_exit</item>
+        <!--退出-->
+        <item name="android:windowExitAnimation">@anim/commont_dialog_enter</item>
     </style>
 </resources>

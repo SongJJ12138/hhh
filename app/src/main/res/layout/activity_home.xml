@@ -1,10 +1,288 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".HomeActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@mipmap/homebackground"
+              android:orientation="vertical"
+              tools:ignore="ResourceName">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+            android:id="@+id/title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/blue"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="0dp">
+
+        <TextView
+                android:id="@+id/tv_lock_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="智维电梯"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+    </RelativeLayout>
+    <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+            <LinearLayout
+                    android:layout_marginTop="25dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="41dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/homemokuai">
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:layout_marginEnd="@dimen/margin_10"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="电梯："
+                            android:textColor="#ff333333"
+                            android:textSize="15sp" />
+                    <TextView
+                            android:id="@+id/tv_dianti"
+                            android:layout_width="0dp"
+                            android:layout_weight="7"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:text="请选择对应电梯！"
+                            android:textColor="#ff333333"
+                            android:textSize="13sp" />
+                    <Button
+                            android:id="@+id/bt_select"
+                            android:layout_width="0dp"
+                            android:layout_weight="2"
+                            android:layout_height="match_parent"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/all_corners"
+                            android:textColor="#1B85E9"
+                            android:text="选择电梯"
+                            android:textSize="12sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/homemokuai">
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/blue"
+                        android:alpha="0.7"
+                        android:text="电梯维保"
+                        android:textSize="18sp"
+                        android:paddingTop="@dimen/margin_5"
+                        android:paddingBottom="@dimen/margin_5"
+                        android:textColor="@color/white"
+                        android:gravity="center"/>
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:layout_marginEnd="@dimen/margin_10">
+                    <TextView
+                            android:id="@+id/tv_frequency"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/black"
+                            android:text="维保类型："
+                            android:textSize="15sp"
+                            tools:ignore="NestedWeights" />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="无"
+                            android:textColor="@color/black" android:id="@+id/tv_type"/>
+                </LinearLayout>
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#1B85E9"/>
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:layout_marginEnd="@dimen/margin_10">
+                    <TextView
+                            android:id="@+id/tv_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/black"
+                            android:text="最新维保时间："
+                            android:textSize="15sp"
+                            tools:ignore="NestedWeights" />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="无"
+                            android:textColor="@color/black" android:id="@+id/tv_time"/>
+                </LinearLayout>
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#1B85E9"/>
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:layout_marginEnd="@dimen/margin_10">
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="2"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/black"
+                            android:text="维保人："
+                            android:textSize="15sp"
+                            tools:ignore="NestedWeights" />
+
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="6"
+                            android:gravity="center_vertical"
+                            android:text="无"
+                            android:textColor="@color/black" android:id="@+id/tv_people"/>
+                    <Button
+                            android:id="@+id/bt_yulan"
+                            android:layout_width="0dp"
+                            android:layout_weight="2"
+                            android:layout_height="match_parent"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/all_corners"
+                            android:textColor="#1B85E9"
+                            android:text="维保预览"
+                            android:textSize="12sp"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
+                <RelativeLayout
+                        android:id="@+id/bt_gongdan"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_5"
+                        android:layout_marginStart="@dimen/margin_5"
+                        android:layout_weight="1"
+                        android:background="@drawable/all_corners_white">
+
+                    <ImageView
+                            android:id="@+id/icon_shift"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_margin="10dp"
+                            android:src="@mipmap/icon_home_shift" />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/icon_shift"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="25dp"
+                            android:layout_marginBottom="@dimen/margin_15"
+                            android:text="维保工单"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                        android:id="@+id/bt_weibao"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_5"
+                        android:layout_marginStart="@dimen/margin_5"
+                        android:layout_weight="1"
+                        android:background="@drawable/all_corners_white">
+
+                    <ImageView
+                            android:id="@+id/icon_home_inspect"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_margin="10dp"
+                            android:src="@mipmap/icon_home_inspect" />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/icon_home_inspect"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="@dimen/margin_15"
+                            android:layout_marginTop="25dp"
+                            android:layout_marginBottom="@dimen/margin_15"
+                            android:text="开始维保"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                        android:id="@+id/bt_wode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_5"
+                        android:layout_marginEnd="@dimen/margin_5"
+                        android:layout_weight="1"
+                        android:background="@drawable/all_corners_white">
+
+                    <ImageView
+                            android:id="@+id/icon_home_mine"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_margin="10dp"
+                            android:src="@mipmap/icon_home_mine" />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/icon_home_mine"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="@dimen/margin_15"
+                            android:layout_marginTop="25dp"
+                            android:layout_marginBottom="@dimen/margin_15"
+                            android:text="我的"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

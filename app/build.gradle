@@ -27,4 +27,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //okhttp
+    api 'com.zhy:okhttputils:2.6.2'
+    api 'com.squareup.okhttp3:okhttp:3.11.0'
+
+    //gson
+    api 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    //fastJson
+    implementation 'com.alibaba:fastjson:1.2.48'
 }

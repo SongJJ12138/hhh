@@ -1,17 +1,16 @@
-package com.example.maintenanceelevator;
+package com.example.maintenanceelevator.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.example.maintenanceelevator.R;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private EditText ed_name;
     private EditText ed_password;
     private CheckBox cb_remberword;
@@ -76,7 +75,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.login_btn:
                 if (check()){
                     if (ed_name.getText().toString().equals("admin")||ed_password.getText().toString().equals("test")){
-                        startActivity(new Intent(MainActivity.this,HomeActivity.class));
+                        startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+                        this.finish();
                     }else{
                         Toast.makeText(getApplicationContext(),"用户名或密码错误！",Toast.LENGTH_SHORT).show();
                     }

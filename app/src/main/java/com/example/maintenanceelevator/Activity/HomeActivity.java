@@ -89,14 +89,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         initView();
-        httpModel=new HttpModel(new HttpModel.HttpClientListener() {
+        httpModel=new HttpModel(getApplicationContext(),new HttpModel.HttpClientListener() {
             @Override
             public void onError() {
                 handler.sendEmptyMessage(404);
             }
 
             @Override
-            public void onSuccess(String obj) {
+            public void onSuccess(Object obj) {
                 Message msg=new Message();
                 msg.obj=obj;
                 msg.what=100;
@@ -135,7 +135,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 break;
             //工单管理
             case R.id.bt_gongdan:
-
+                startActivity(new Intent(HomeActivity.this,ShowActivity.class));
                 break;
             //维保
             case R.id.bt_weibao:

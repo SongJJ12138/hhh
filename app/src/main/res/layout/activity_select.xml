@@ -6,97 +6,62 @@
               android:background="@mipmap/homebackground"
               android:orientation="vertical">
 
-    <RelativeLayout
-            android:id="@+id/title_bar"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/blue"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="0dp">
-        <include layout="@layout/common_back_btn"/>
-        <TextView
-                android:id="@+id/tv_lock_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="电梯维保"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-    </RelativeLayout>
-    <LinearLayout
-            android:layout_marginTop="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="vertical"
-            android:background="@drawable/homemokuai">
-        <TextView
-                android:id="@+id/tv_scene"
-                android:text="选择需要维保项"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:textSize="17sp"
-                android:layout_height="45dp"
-                android:background="@color/blue"
-                android:textColor="@color/white"/>
-        <RadioGroup
-                android:id="@+id/rv_group"
-                android:layout_width="match_parent"
-                android:layout_marginLeft="10dp"
-                android:gravity="start"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginStart="10dp">
-            <RadioButton
-                    android:layout_width="wrap_content"
-                    android:id="@+id/rb_banyue"
-                    android:text="半月维保"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content" />
-            <RadioButton
-                    android:layout_width="wrap_content"
-                    android:text="整月维保"
-                    android:id="@+id/rb_yue"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content" />
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:id="@+id/rb_jidu"
-                android:text="季度维保"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
-            <RadioButton
-                    android:layout_width="wrap_content"
-                    android:id="@+id/rb_bannian"
-                    android:text="半年维保"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content" />
-            <RadioButton
-                    android:layout_width="wrap_content"
-                    android:id="@+id/rb_nian"
-                    android:text="年维保"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content" />
-        </RadioGroup>
-    </LinearLayout>
-
-
-    <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-    <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_next"
+<RelativeLayout
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/blue"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="0dp">
+    <include layout="@layout/common_back_btn"/>
+    <TextView
+            android:id="@+id/tv_lock_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="电梯维保"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+</RelativeLayout>
+<LinearLayout
+        android:layout_marginTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
+        android:background="@drawable/homemokuai">
+    <TextView
+            android:id="@+id/tv_scene"
+            android:text="选择需要维保项"
             android:gravity="center"
-            android:layout_marginBottom="@dimen/margin_30"
-            android:text="下一步"
-            android:layout_marginLeft="@dimen/margin_10"
-            android:layout_marginRight="@dimen/margin_10"
-            android:background="@color/blue"
             android:layout_width="match_parent"
-            android:layout_height="46dp" />
+            android:textSize="17sp"
+            android:layout_height="45dp"
+            android:background="@color/blue"
+            android:textColor="@color/white"/>
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_selectType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+</LinearLayout>
+
+
+<View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+<android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_next"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/margin_30"
+        android:text="下一步"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
+        android:background="@color/blue"
+        android:layout_width="match_parent"
+        android:layout_height="46dp" />
 
 </LinearLayout>

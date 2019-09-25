@@ -8,11 +8,11 @@ public class Constants {
      */
     public static final String HOST = "http://moiau.com:8000/";
 
+    //登录
+    public static final String LOGININ="api/login/";
     //获取所有电梯
-    public static final String GETALL_ELEVATOR = "api/elevators_by_mcompanystaffpk/";
-    public static final String BANYUE ="api/half_month_mtc_items/";
-    public static final String YUE ="api/month_mtc_items/";
-    public static final String JIDU ="api/quarter_mtc_items/";
-    public static final String BANNIAN ="api/half_year_mtc_items/";
-    public static final String NIAN ="api/year_mtc_items/";
+    public static final String GETALL_ELEVATOR = "api/get_elevators_by_mcompanystaffpk/";
+    //获取电梯种类
+    public static final String GETELEVATOR_TYPE ="api/get_mtctypes/";
+    public static final String ADD_MTC="api/add_mtc/";
 }

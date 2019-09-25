@@ -77,4 +77,9 @@ public class ElevatorInspectView extends LinearLayout implements View.OnClickLis
     public void setContent(String demand) {
         tv_content.setText(demand);
     }
+
+    public void setOnstart() {
+        bt_good.setBackgroundResource(R.mipmap.on);
+        tv_content.setVisibility(VISIBLE);
+    }
 }

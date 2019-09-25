@@ -1,35 +1,271 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:orientation="vertical"
               android:background="@mipmap/homebackground"
-              android:orientation="vertical">
-
+              xmlns:android="http://schemas.android.com/apk/res/android" >
     <RelativeLayout
-            android:id="@+id/title_bar"
+            android:id="@+id/rl_title"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/margin_50"
             android:background="@color/blue"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="0dp">
-        <include layout="@layout/common_back_btn"/>
+            android:gravity="center_vertical">
+
+        <include layout="@layout/common_back_btn" />
+
         <TextView
-                android:id="@+id/tv_lock_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="电梯维保"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:text="电梯维保-月检"
+                android:textColor="#fff"
+                android:textSize="18sp" />
+        <TextView
+                android:id="@+id/tv_commit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="下一页"
+                android:textColor="#fff"
+                android:padding="10dp"
+                android:layout_alignParentEnd="true" />
     </RelativeLayout>
-    <android.support.v7.widget.RecyclerView
-            android:id="@+id/ry_inspect"
-            android:layout_marginTop="@dimen/margin_10"
-            android:layout_marginLeft="@dimen/margin_10"
-            android:layout_marginRight="@dimen/margin_10"
+    <ScrollView
             android:layout_width="match_parent"
-            android:background="@drawable/all_corners"
-            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+            <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/homemokuai">
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:layout_marginEnd="@dimen/margin_10"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="电梯名称："
+                            android:textColor="#ff333333"
+                            android:textSize="15sp" />
+                    <TextView
+                            android:id="@+id/tv_dianti"
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:text="700栋797单元南梯"
+                            android:textColor="#ff333333"
+                            android:textSize="13sp" />
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:layout_marginEnd="@dimen/margin_10"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="电梯编号："
+                            android:textColor="#ff333333"
+                            android:textSize="15sp" />
+                    <TextView
+                            android:id="@+id/tv_diantiSn"
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:text="81743618"
+                            android:textColor="#ff333333"
+                            android:textSize="13sp" />
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:layout_marginEnd="@dimen/margin_10"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="选择需要前往的工单页面："
+                            android:textColor="#ff333333"
+                            android:textSize="15sp" />
+                    <Button
+                            android:id="@+id/bt_select"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/all_corners"
+                            android:textColor="#1B85E9"
+                            android:text="选择工单"
+                            android:textSize="12sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_50"
+                        android:background="@drawable/dialogtitle"
+                        android:gravity="center_vertical">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="检查项"
+                            android:textColor="#fff"
+                            android:textSize="18sp" />
+                </RelativeLayout>
+                <TextView
+                        android:background="#fffbf0"
+                        android:id="@+id/rv_title"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="16sp"
+                        android:padding="@dimen/margin_5"
+                        android:text="机房、滑轮间环境"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_50"
+                        android:background="@drawable/dialogtitle"
+                        android:gravity="center_vertical">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="确认项"
+                            android:textColor="#fff"
+                            android:textSize="18sp" />
+                </RelativeLayout>
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:padding="@dimen/margin_5"
+                              android:background="@color/white"
+                              android:orientation="horizontal">
+                    <TextView
+                            android:background="#fffbf0"
+                            android:id="@+id/rv_content"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="16sp"
+                            android:layout_weight="1"
+                            android:text="清洁，门窗完好、照明正常"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                    android:id="@+id/layout_addPic"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_50"
+                        android:background="@drawable/dialogtitle"
+                        android:gravity="center_vertical">
+                    <ImageView
+                            android:id="@+id/im_paizhao"
+                            android:layout_width="@dimen/margin_20"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="@dimen/margin_10"
+                            android:src="@mipmap/paizhao"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/margin_10" />
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="添加照片"
+                            android:textColor="#fff"
+                            android:textSize="18sp" />
+                    <ImageView
+                            android:id="@+id/im_select"
+                            android:layout_width="@dimen/margin_20"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:src="@mipmap/image"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="@dimen/margin_10" />
+                </RelativeLayout>
+                <android.support.v7.widget.RecyclerView
+                        android:background="#fffbf0"
+                        android:id="@+id/rv_pic"
+                        android:padding="@dimen/margin_10"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:layout_height="200dp"
+                    android:orientation="vertical">
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_50"
+                        android:background="@drawable/dialogtitle"
+                        android:gravity="center_vertical">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="备注"
+                            android:textColor="#fff"/>
+                </RelativeLayout>
+                <EditText
+                        android:id="@+id/ed_inspect_beizhu"
+                        android:layout_width="match_parent"
+                        android:gravity="start"
+                        android:background="#fffbf0"
+                        android:layout_height="match_parent"
+                        android:hint="备注"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -36,13 +36,14 @@ public class InspectAdapter extends RecyclerView.Adapter<InspectAdapter.VH> {
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+    @Override
     public int getItemCount() {
         return list.size();
     }
 
-    public void setList(List<Inspect> inspectsList) {
-        list.addAll(inspectsList);
-    }
 
     public interface OnclickListener {
         void onclick();

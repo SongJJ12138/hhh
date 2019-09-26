@@ -48,7 +48,6 @@ public class InspectAdapter extends RecyclerView.Adapter<InspectAdapter.VH> {
     public interface OnclickListener {
         void onclick();
     }
-
     public class VH extends RecyclerView.ViewHolder{
         private ElevatorInspectView inspectView;
         public VH(@NonNull View itemView) {

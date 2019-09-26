@@ -24,7 +24,11 @@ public class HttpModel {
     private SharedPreferences.Editor editor;
     private SharedPreferences sharedPreferences;
     private OkHttpClient okHttpClient;
+    private String cookie;
     public HttpModel(Context context,HttpClientListener listener) {
+        String SESSION_SERVER_HEAD =sharedPreferences.getString("csrftoken","") ;
+        String SESSION_SERVER_ID = sharedPreferences.getString("sessionid","");
+        cookie="csrftoken=" + SESSION_SERVER_HEAD+";sessionid="+SESSION_SERVER_ID;
         this.httpClientListener=listener;
         this.context=context;
         sharedPreferences=context.getSharedPreferences("config", context.MODE_PRIVATE);
@@ -145,8 +149,68 @@ public class HttpModel {
         });
     }
 
+    public void postLogByphoto() {
+    }
+
+    public void postLogNophoto(String remark, String pk,String url) {
+        FormBody formBody = new FormBody.Builder()
+                .add("pk", pk).add("log", remark).build();
+        Request request = new Request.Builder()
+                .url(Constants.HOST+url)
+                .addHeader("cookie",cookie)
+                .post(formBody)
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                httpClientListener.onError();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String res=response.body().string();
+                JSONObject jsonObject=JSONObject.parseObject(res);
+                if (jsonObject.getInteger("code")==200){
+                    httpClientListener.onaddWithCommit("ADDLOG");
+                }else {
+                    httpClientListener.onError();
+                }
+            }
+        });
+    }
+
+    public void commitMtc(String elevator_pk,String url) {
+        FormBody formBody = new FormBody.Builder()
+                .add("pk", elevator_pk).build();
+        Request request = new Request.Builder()
+                .url(Constants.HOST+url)
+                .addHeader("cookie",cookie)
+                .post(formBody)
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                httpClientListener.onError();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String res=response.body().string();
+                JSONObject jsonObject=JSONObject.parseObject(res);
+                if (jsonObject.getInteger("code")==200){
+                    httpClientListener.onaddWithCommit("COMMITMTC");
+                }else {
+                    httpClientListener.onError();
+                }
+            }
+        });
+    }
+
     public interface HttpClientListener{
         void onError();
         void onSuccess(Object obj);
+        void onaddWithCommit(String type);
     }
 }

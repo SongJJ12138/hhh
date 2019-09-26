@@ -17,7 +17,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="电梯维保-月检"
+                android:text="电梯维保"
                 android:textColor="#fff"
                 android:textSize="18sp" />
         <TextView
@@ -104,17 +104,24 @@
                         android:orientation="horizontal"
                         android:layout_weight="1">
                     <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:text="选择工单："
+                            android:textColor="#ff333333"
+                            android:textSize="15sp" />
+                    <TextView
+                            android:id="@+id/tv_showlog"
                             android:layout_width="0dp"
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3"
-                            android:text="选择需要前往的工单页面："
+                            android:layout_weight="1"
+                            android:text=""
                             android:textColor="#ff333333"
                             android:textSize="15sp" />
                     <Button
                             android:id="@+id/bt_select"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_margin="8dp"
                             android:background="@drawable/all_corners"

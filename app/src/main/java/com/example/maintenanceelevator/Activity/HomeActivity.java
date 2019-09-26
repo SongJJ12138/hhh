@@ -102,6 +102,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 msg.what=100;
                 handler.sendMessage(msg);
             }
+
+            @Override
+            public void onaddLog() {
+
+            }
         });
     }
 

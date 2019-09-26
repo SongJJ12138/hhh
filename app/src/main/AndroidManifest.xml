@@ -28,7 +28,7 @@
             android:usesCleartextTraffic="true">
         <activity android:name=".Activity.ShowActivity">
         </activity>
-        <activity android:name=".Activity.InspectActivity">
+        <activity android:name="Dialog.InspectActivity">
         </activity>
         <activity android:name=".Activity.SelectActivity">
         </activity>

@@ -65,6 +65,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 msg.obj=obj;
                 handler.sendMessage(msg);
             }
+
+            @Override
+            public void onaddLog() {
+
+            }
         });
         SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("config", getApplicationContext().MODE_PRIVATE);
         editor=sharedPreferences.edit();

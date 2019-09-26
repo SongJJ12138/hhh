@@ -1,11 +1,10 @@
 package com.example.maintenanceelevator.Activity;
 
 import Adapter.ElevatorTypeAdapter;
-import Adapter.InspectAdapter;
-import Bean.Elevator;
 import Bean.ElevatorType;
 import Constans.Constants;
 import Constans.HttpModel;
+import Dialog.InspectActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -75,6 +74,11 @@ private List<ElevatorType> typeList=new ArrayList<>();
                 msg.what=100;
                 handler.sendMessage(msg);
             }
+
+            @Override
+            public void onaddLog() {
+
+            }
         });
         httpModel.get("", Constants.GETELEVATOR_TYPE);
         initView();
@@ -109,7 +113,7 @@ private List<ElevatorType> typeList=new ArrayList<>();
                 if (state==0){
                     Toast.makeText(getApplicationContext(),"您还未选择需要维保项！",Toast.LENGTH_SHORT).show();
                 }else {
-                    Intent intent=new Intent(SelectActivity.this,InspectActivity.class);
+                    Intent intent=new Intent(SelectActivity.this, InspectActivity.class);
                     startActivity(intent);
                 }
                 break;

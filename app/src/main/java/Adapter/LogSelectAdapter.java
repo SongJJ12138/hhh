@@ -49,7 +49,10 @@ public class LogSelectAdapter extends RecyclerView.Adapter<LogSelectAdapter.VH> 
         });
     }
 
-
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     @Override
     public int getItemCount() {
         return list.size();

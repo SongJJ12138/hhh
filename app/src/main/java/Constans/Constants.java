@@ -14,5 +14,10 @@ public class Constants {
     public static final String GETALL_ELEVATOR = "api/get_elevators_by_mcompanystaffpk/";
     //获取电梯种类
     public static final String GETELEVATOR_TYPE ="api/get_mtctypes/";
+    //添加电梯维保工单
     public static final String ADD_MTC="api/add_mtc/";
+    //添加电梯子工单
+    public static final String ADD_LOG="api/check_mtclog/";
+    //提交维保工单
+    public static final String SUBMIT_MTC="api/submit_mtc/";
 }

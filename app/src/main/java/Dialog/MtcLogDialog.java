@@ -1,6 +1,5 @@
 package Dialog;
 
-import Adapter.ElevatorSelectAdapter;
 import Adapter.LogSelectAdapter;
 import Bean.Elevator;
 import Bean.ElevatorInspect;
@@ -73,4 +72,3 @@ public class MtcLogDialog extends Dialog{
         void onChoose(String str);
     }
 }
-

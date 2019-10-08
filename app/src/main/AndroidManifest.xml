@@ -26,9 +26,15 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
+        <activity android:name=".Activity.ConfirmActivity">
+        </activity>
+        <activity android:name=".Activity.MineActivity">
+        </activity>
+        <activity android:name=".Activity.updateIpActivity">
+        </activity>
         <activity android:name=".Activity.ShowActivity">
         </activity>
-        <activity android:name="Dialog.InspectActivity">
+        <activity android:name=".Activity.InspectActivity">
         </activity>
         <activity android:name=".Activity.SelectActivity">
         </activity>

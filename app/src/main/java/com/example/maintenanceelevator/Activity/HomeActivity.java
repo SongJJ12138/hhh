@@ -26,16 +26,10 @@ import java.util.List;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private TextView tv_dianti;
-    private TextView tv_type;
-    private TextView tv_time;
-    private TextView tv_people;
-    private Button bt_select;
-    private Button bt_yulan;
-    private RelativeLayout bt_gongdan;
-    private RelativeLayout bt_weibao;
-    private RelativeLayout bt_wode;
+//    private Button bt_yulan;
     private EleatorSelectDialog eleatorSelectDialog;
     private HttpModel httpModel;
+    private String pk;
     @SuppressLint("HandlerLeak")
     private Handler handler=new Handler(){
         @Override
@@ -61,17 +55,18 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                     break;
                     default:
                         break;
-            };
+            }
         }
     };
 
     private void showdialog(List elevatorsList) {
         eleatorSelectDialog=new EleatorSelectDialog(HomeActivity.this, elevatorsList, new EleatorSelectDialog.onChooseElevatorListener() {
             @Override
-            public void onChoose(String str) {
+            public void onChoose(String str,String str2) {
                 tv_dianti.setText(str);
                 onchooseElevator();
                 eleatorSelectDialog.dismiss();
+                pk=str2;
             }
         });
         eleatorSelectDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -104,26 +99,27 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             }
 
             @Override
-            public void onaddLog() {
+            public void onaddWithCommit(String type) {
 
             }
+
         });
     }
 
     private void initView() {
         tv_dianti = findViewById(R.id.tv_dianti);
-        tv_type = findViewById(R.id.tv_type);
-        tv_time = findViewById(R.id.tv_time);
-        tv_people = findViewById(R.id.tv_people);
-        bt_select = findViewById(R.id.bt_select);
-        bt_yulan = findViewById(R.id.bt_yulan);
-        bt_gongdan = findViewById(R.id.bt_gongdan);
-        bt_weibao = findViewById(R.id.bt_weibao);
-        bt_wode = findViewById(R.id.bt_wode);
+//        TextView tv_type = findViewById(R.id.tv_type);
+//        TextView tv_time = findViewById(R.id.tv_time);
+//        TextView tv_people = findViewById(R.id.tv_people);
+        Button bt_select = findViewById(R.id.bt_select);
+//        bt_yulan = findViewById(R.id.bt_yulan);
+        RelativeLayout bt_gongdan = findViewById(R.id.bt_gongdan);
+        RelativeLayout bt_weibao = findViewById(R.id.bt_weibao);
+        RelativeLayout bt_wode = findViewById(R.id.bt_wode);
         bt_select.setOnClickListener(this);
-        bt_yulan .setOnClickListener(this);
-        bt_gongdan .setOnClickListener(this);
-        bt_weibao .setOnClickListener(this);
+//        bt_yulan .setOnClickListener(this);
+        bt_gongdan.setOnClickListener(this);
+        bt_weibao.setOnClickListener(this);
         bt_wode.setOnClickListener(this);
     }
 
@@ -134,10 +130,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             case R.id.bt_select:
                 httpModel.get("", Constants.GETALL_ELEVATOR);
                 break;
-            //预览维保数据
-            case R.id.bt_yulan:
-
-                break;
+//            //预览维保数据
+//            case R.id.bt_yulan:
+//
+//                break;
             //工单管理
             case R.id.bt_gongdan:
                 startActivity(new Intent(HomeActivity.this,ShowActivity.class));
@@ -145,13 +141,15 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             //维保
             case R.id.bt_weibao:
                 if (!tv_dianti.getText().toString().equals("请选择对应电梯！")){
-                    startActivity(new Intent(HomeActivity.this,SelectActivity.class));
+                    Intent intent=new Intent(HomeActivity.this,SelectActivity.class);
+                    intent.putExtra("pk",pk);
+                    startActivity(intent);
                 }else {
                     Toast.makeText(getApplicationContext(),"您还未选择电梯！",Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.bt_wode:
-
+                startActivity(new Intent(HomeActivity.this,MineActivity.class));
                 break;
         }
     }

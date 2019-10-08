@@ -8,9 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.*;
 import com.example.maintenanceelevator.R;
 
 import java.util.List;
@@ -18,11 +16,11 @@ import java.util.List;
 public class ElevatorTypeAdapter extends RecyclerView.Adapter<ElevatorTypeAdapter.VH> {
     private Context context;
     private List<ElevatorType> list;
-    private ElevatorTypeAdapter.OnclickListener tvOnclickListener;
+    private OnclickListener OnclickListener;
     public ElevatorTypeAdapter(Context context, List<ElevatorType> list, OnclickListener onclickListener){
         this.context=context;
         this.list=list;
-        this.tvOnclickListener=onclickListener;
+        this.OnclickListener=onclickListener;
     }
     @NonNull
     @Override
@@ -32,14 +30,14 @@ public class ElevatorTypeAdapter extends RecyclerView.Adapter<ElevatorTypeAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VH vh, int i) {
-        int index=1;
-        for (ElevatorType type:list){
-            RadioButton  button=new RadioButton(context);
-            setRaidBtnAttribute(button,type.getVerbose_name(),index);
-            vh.rv.addView(button);
-            index++;
-        }
+    public void onBindViewHolder(@NonNull VH vh, final int i) {
+        vh.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OnclickListener.onclick(list.get(i).getName());
+            }
+        });
+        vh.tv_title.setText(list.get(i).getVerbose_name());
     }
 
     @Override
@@ -48,31 +46,18 @@ public class ElevatorTypeAdapter extends RecyclerView.Adapter<ElevatorTypeAdapte
     }
     @Override
     public int getItemCount() {
-        return 1;
+        return list.size();
     }
     public interface OnclickListener {
-        void onclick(int id);
+        void onclick(String type);
     }
     public class VH extends RecyclerView.ViewHolder {
-        private RadioGroup rv;
+        private RelativeLayout layout;
+        private TextView tv_title;
         public VH(@NonNull View itemView) {
             super(itemView);
-            rv=itemView.findViewById(R.id.rv_group);
+            layout=itemView.findViewById(R.id.btn_inspect);
+            tv_title=itemView.findViewById(R.id.tv_selectTitle);
         }
-    }
-    private void setRaidBtnAttribute(final RadioButton codeBtn, String btnContent, final int id ){
-        if( null == codeBtn ){
-            return;
-        }
-        codeBtn.setId( id );
-        codeBtn.setText( btnContent );
-        codeBtn.setGravity( Gravity.LEFT );
-        codeBtn.setTextSize(16);
-        codeBtn.setOnClickListener( new View.OnClickListener( ) {
-            @Override
-            public void onClick(View v) {
-                tvOnclickListener.onclick(id);
-            }
-        });
     }
 }

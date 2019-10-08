@@ -3,6 +3,7 @@ package Adapter;
 import Bean.Elevator;
 import Bean.ElevatorInspect;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -38,15 +39,25 @@ public class LogSelectAdapter extends RecyclerView.Adapter<LogSelectAdapter.VH> 
             vh.tv_statu.setText("已完成");
             vh.tv_log.setTextColor(Color.RED);
             vh.tv_statu.setTextColor(Color.RED);
+            SharedPreferences sharedPreferences=context.getSharedPreferences("config", context.MODE_PRIVATE);;
+            String permission=sharedPreferences.getString("permission","");
+            if (permission.equals("pcompany")){
+                vh.layoutl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        tvOnclickListener.onclick(list.get(i).getContent());
+                    }
+                });
+            }
         }else{
             vh.tv_statu.setText("未完成");
+            vh.layoutl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tvOnclickListener.onclick(list.get(i).getContent());
+                }
+            });
         }
-        vh.layoutl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tvOnclickListener.onclick(list.get(i).getContent());
-            }
-        });
     }
 
     @Override

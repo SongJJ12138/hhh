@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<attr name="mine_borderRadius" format="dimension" />
+<attr name="mine_type">
+    <enum name="circle" value="0" />
+    <enum name="round" value="1" />
+</attr>
+
+<declare-styleable name="mine_RoundImageView">
+    <attr name="mine_borderRadius" />
+    <attr name="mine_type" />
+</declare-styleable>
+
+</resources>

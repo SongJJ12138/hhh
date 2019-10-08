@@ -34,7 +34,7 @@ public class ElevatorSelectAdapter extends RecyclerView.Adapter<ElevatorSelectAd
         vh.tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tvOnclickListener.onclick(list.get(i).getName());
+                tvOnclickListener.onclick(list.get(i).getName(),list.get(i).getPk());
             }
         });
     }
@@ -53,6 +53,6 @@ public class ElevatorSelectAdapter extends RecyclerView.Adapter<ElevatorSelectAd
         }
     }
     public interface tvOnclickListener{
-       void onclick(String str);
+       void onclick(String str,String pk);
     }
 }

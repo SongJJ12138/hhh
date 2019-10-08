@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:alpha="0.8"
+                android:scaleType="centerCrop"
                 android:background="@drawable/bit_background" >
+    <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
+               android:src="@mipmap/timg"
+               android:scaleType="centerCrop"/>
+    <View android:layout_width="match_parent" android:layout_height="match_parent"
+          android:background="#D93C536F"/>
 
     <RelativeLayout
             android:id="@+id/login_layout"
@@ -15,7 +21,7 @@
             android:gravity="center" >
 
         <!--登录界面图像-->
-        <ImageView
+        <TextView
                 android:id="@+id/user_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="150dp"
@@ -26,7 +32,10 @@
                 android:scaleType="fitXY"
                 android:layout_centerVertical="true"
                 android:padding="5dp"
-                android:background="@mipmap/title" />
+                android:text="鲁班物联智慧电梯\n安全运行监测系统"
+                android:textColor="@color/white"
+                android:textSize="35sp"
+                android:textStyle="bold"/>
 
         <!--用户名行布局-->
         <FrameLayout
@@ -160,7 +169,7 @@
                 android:layout_below="@+id/passwd_layout"
                 android:layout_marginRight="5dp"
                 android:background="#00000000"
-                android:text="忘记密码?"
+                android:text="配置IP地址"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
@@ -181,4 +190,4 @@
                 android:gravity="center" />
 
     </RelativeLayout>
-</RelativeLayout>
+</FrameLayout>

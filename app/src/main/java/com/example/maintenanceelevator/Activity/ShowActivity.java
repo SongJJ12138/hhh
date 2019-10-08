@@ -1,23 +1,30 @@
 package com.example.maintenanceelevator.Activity;
 
+import Constans.Constants;
+import Constans.HttpModel;
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 import com.example.maintenanceelevator.R;
 import fragment.ElevatorFragment;
-import fragment.FragmentAdapter;
+import Adapter.FragmentAdapter;
 
 import java.util.ArrayList;
 
 public class ShowActivity extends FragmentActivity implements View.OnClickListener,
-        ViewPager.OnPageChangeListener {
+        ViewPager.OnPageChangeListener,ElevatorFragment.OnItemclickListener {
 
     private ViewPager myvirwpager;
     private Button one, two, three,four,five;
@@ -26,23 +33,73 @@ public class ShowActivity extends FragmentActivity implements View.OnClickListen
     private Button[] ButtonArgs;
     private ArrayList<Fragment> list;
     private FragmentAdapter adapter;
-    FragmentManager fm=getSupportFragmentManager();
+    private HttpModel httpModel;
+    private FragmentManager fm;
+    private TextView tv_back;
+    @SuppressLint("HandlerLeak")
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+           switch (msg.what){
+               case 200:
+                   String mtc=(String) msg.obj;
+                   init(mtc);
+                   break;
+               case 400:break;
+               case 404:
+                   Toast.makeText(getApplicationContext(),"服务器异常，未找到维保数据！",Toast.LENGTH_SHORT).show();
+                   ShowActivity.this.finish();
+                   break;
+           }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show);
-        Init();
+        fm=getSupportFragmentManager();
+        httpModel=new HttpModel(getApplicationContext(), new HttpModel.HttpClientListener() {
+            @Override
+            public void onError() {
+                handler.sendEmptyMessage(404);
+            }
+
+            @Override
+            public void onSuccess(Object obj) {
+                Message msg=new Message();
+                msg.what=200;
+                msg.obj=obj;
+                handler.sendMessage(msg);
+            }
+
+            @Override
+            public void onaddWithCommit(String type) {
+
+            }
+        });
+        SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("config", getApplicationContext().MODE_PRIVATE);;
+        String permission=sharedPreferences.getString("permission","");
+        if (!permission.equals("")){
+            if (permission.equals("mcompany")){
+                httpModel.getmtcsbymcompany(Constants.GET_MTC_BY_MCOMPANY);
+            }else{
+                httpModel.getmtcsbymcompany(Constants.GET_MTC_BY_PCOMPANY);
+            }
+        }
+
     }
 
-    private void Init() {
+    private void init(String mtc) {
         myvirwpager = (ViewPager) findViewById(R.id.myviewpager);
         one = (Button) findViewById(R.id.one);
         two = (Button) findViewById(R.id.two);
         three = (Button) findViewById(R.id.three);
         four = (Button) findViewById(R.id.four);
         five = (Button) findViewById(R.id.five);
+        tv_back=findViewById(R.id.title_back);
         ButtonArgs = new Button[] { one, two, three ,four,five};
+        tv_back.setOnClickListener(this);
         one.setOnClickListener(this);
         two.setOnClickListener(this);
         three.setOnClickListener(this);
@@ -52,8 +109,8 @@ public class ShowActivity extends FragmentActivity implements View.OnClickListen
         for (int i=0;i<5;i++){
             Fragment fragment=new ElevatorFragment();
             Bundle bundle = new Bundle();
-            String strValue = "这是第"+i+1+"个界面";
-            bundle.putString("str", strValue);
+            bundle.putString("mtc", mtc);
+            bundle.putString("type", i+"");
             fragment.setArguments(bundle);
             list.add(fragment);
         }
@@ -97,6 +154,9 @@ public class ShowActivity extends FragmentActivity implements View.OnClickListen
             case R.id.five:
                 myvirwpager.setCurrentItem(4);
                 break;
+            case R.id.title_back:
+                this.finish();
+                break;
         }
     }
 
@@ -115,5 +175,22 @@ public class ShowActivity extends FragmentActivity implements View.OnClickListen
         resetButtonColor();
         ButtonArgs[arg0].setTextColor(Color.BLACK);
 
+    }
+
+    @Override
+    public void onComitclick(String str) {
+        Intent intent=new Intent(ShowActivity.this, InspectActivity.class);
+        intent.putExtra("change",str);
+        intent.putExtra("pk","");
+        startActivity(intent);
+        this.finish();
+    }
+
+    @Override
+    public void onConfirmclick(String str) {
+        Intent intent=new Intent(ShowActivity.this, ConfirmActivity.class);
+        intent.putExtra("change",str);
+        startActivity(intent);
+        this.finish();
     }
 }

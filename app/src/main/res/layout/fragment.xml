@@ -3,26 +3,9 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical" >
-
-
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_elevator_mtc"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-    >
-
-        <TextView
-                android:id="@+id/txt"
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="0dp"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:text="这里博主想偷懒，只写一个fragment,因为只做演示，这里就只写一个，剩余的留给同学做扩展"/>
-
-
-    </LinearLayout>
-
-
+            android:layout_height="wrap_content"/>
 
 </LinearLayout>

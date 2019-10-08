@@ -4,7 +4,6 @@ import Adapter.ElevatorTypeAdapter;
 import Bean.ElevatorType;
 import Constans.Constants;
 import Constans.HttpModel;
-import Dialog.InspectActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,10 +25,10 @@ import java.util.Iterator;
 import java.util.List;
 
 public class SelectActivity extends BaseActivity implements View.OnClickListener {
-private int state=0;
 private RecyclerView rv_selectType;
 private ElevatorTypeAdapter adapter;
 private HttpModel httpModel;
+private String pk;
 private List<ElevatorType> typeList=new ArrayList<>();
     @SuppressLint("HandlerLeak")
     private Handler handler=new Handler(){
@@ -61,6 +60,8 @@ private List<ElevatorType> typeList=new ArrayList<>();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
+        Intent intent=getIntent();
+        pk=intent.getStringExtra("pk");
         httpModel=new HttpModel(getApplicationContext(),new HttpModel.HttpClientListener(){
             @Override
             public void onError() {
@@ -76,9 +77,10 @@ private List<ElevatorType> typeList=new ArrayList<>();
             }
 
             @Override
-            public void onaddLog() {
+            public void onaddWithCommit(String type) {
 
             }
+
         });
         httpModel.get("", Constants.GETELEVATOR_TYPE);
         initView();
@@ -87,17 +89,19 @@ private List<ElevatorType> typeList=new ArrayList<>();
 
     private void initView() {
         TextView tv_back = findViewById(R.id.title_back);
-        Button bt_next = findViewById(R.id.btn_next);
         tv_back.setOnClickListener(this);
-        bt_next.setOnClickListener(this);
         rv_selectType=findViewById(R.id.rv_selectType);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         layoutManager.setOrientation(OrientationHelper. VERTICAL);
         rv_selectType.setLayoutManager(layoutManager);
         adapter=new ElevatorTypeAdapter(getApplicationContext(),typeList, new ElevatorTypeAdapter.OnclickListener(){
             @Override
-            public void onclick(int id) {
-                state=id;
+            public void onclick(String type) {
+                Intent intent=new Intent(SelectActivity.this, InspectActivity.class);
+                intent.putExtra("time",type);
+                intent.putExtra("pk",pk);
+                intent.putExtra("change","");
+                startActivity(intent);
             }
         });
         rv_selectType.setAdapter(adapter);
@@ -105,19 +109,8 @@ private List<ElevatorType> typeList=new ArrayList<>();
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.title_back:
-                this.finish();
-                break;
-            case R.id.btn_next:
-                if (state==0){
-                    Toast.makeText(getApplicationContext(),"您还未选择需要维保项！",Toast.LENGTH_SHORT).show();
-                }else {
-                    Intent intent=new Intent(SelectActivity.this, InspectActivity.class);
-                    startActivity(intent);
-                }
-                break;
-                default:break;
+        if (v.getId() == R.id.title_back) {
+            this.finish();
         }
     }
 }

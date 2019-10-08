@@ -20,4 +20,10 @@ public class Constants {
     public static final String ADD_LOG="api/check_mtclog/";
     //提交维保工单
     public static final String SUBMIT_MTC="api/submit_mtc/";
+    //获取维保工单
+    public static final String GET_MTC_BY_MCOMPANY ="api/get_mtcs_by_mcompanystaffpk/" ;
+    //获取已添加的未完成工单
+    public static final String GET_MTC ="api/get_mtc/";
+    public static final String GET_MTC_BY_PCOMPANY = "api/get_mtcs_by_pcompanystaffpk/";
+    public static final String CONFIRM = "api/confirm_mtc/";
 }

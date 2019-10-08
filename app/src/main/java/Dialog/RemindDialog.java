@@ -1,4 +1,4 @@
-package com.example.maintenanceelevator.Activity;
+package Dialog;
 
 import android.app.Dialog;
 import android.content.Context;

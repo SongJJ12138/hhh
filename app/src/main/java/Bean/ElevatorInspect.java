@@ -20,6 +20,16 @@ public class ElevatorInspect {
 
     private String elevator_pk;
     private String elevator_name;
+    private String pk;
+
+    public String getPk() {
+        return pk;
+    }
+
+    public void setPk(String pk) {
+        this.pk = pk;
+    }
+
     private String elevator_sn;
     private String type;
     private String mcompany_staff;

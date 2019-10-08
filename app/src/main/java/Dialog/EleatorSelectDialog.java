@@ -20,7 +20,6 @@ import java.util.List;
 
 
 public class EleatorSelectDialog extends Dialog{
-    //绑定区镇村数据
     private List<Elevator> elevators=new ArrayList<>();
     private RecyclerView rv_Elevator;
     private TextView tv_Elevator;
@@ -48,10 +47,10 @@ public class EleatorSelectDialog extends Dialog{
         rv_Elevator.setLayoutManager(layoutManager);
         ElevatorSelectAdapter adapter=new ElevatorSelectAdapter(context,elevators, new ElevatorSelectAdapter.tvOnclickListener(){
             @Override
-            public void onclick(String str) {
+            public void onclick(String str,String pk) {
                 tv_Elevator.setText(str);
                 tv_Elevator.setTextColor(Color.parseColor("#269fef"));
-                onChooseElevatorListener.onChoose(str);
+                onChooseElevatorListener.onChoose(str,pk);
             }
         });
         rv_Elevator.setAdapter(adapter);
@@ -67,6 +66,6 @@ public class EleatorSelectDialog extends Dialog{
         getWindow().setAttributes(layoutParams);
     }
     public interface onChooseElevatorListener{
-        void onChoose(String str);
+        void onChoose(String str,String pk);
     }
 }

@@ -1,8 +1,14 @@
-package Dialog;
+package com.example.maintenanceelevator.Activity;
 
 import Bean.ElevatorInspect;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import utils.*;
+import Adapter.PictureSelectAdapter;
 import Constans.Constants;
 import Constans.HttpModel;
+import Dialog.MtcLogDialog;
+import Dialog.RemindDialog;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,13 +21,13 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.Window;
 import android.widget.*;
-import com.example.maintenanceelevator.Activity.BaseActivity;
-import com.example.maintenanceelevator.Activity.RemindDialog;
 import com.example.maintenanceelevator.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class InspectActivity extends BaseActivity implements View.OnClickListener {
     private final static int REQUCODE_PAIZHAO=0x01;
-    private final static int REQUCODE_SELECT=0x02;
     private RemindDialog remindDialog;
     private HttpModel httpModel;
     private ElevatorInspect inspect;
@@ -34,7 +40,11 @@ public class InspectActivity extends BaseActivity implements View.OnClickListene
     private MtcLogDialog mtcLogDialog;
     private TextView tv_showlog;
     private EditText ed_remark;
+    private Intent intent;
     private int checked=0;
+    private int Maxsize;
+    private PictureSelectAdapter pictureSelectAdapter;
+    private List<Bitmap> imList=new ArrayList<>();
 @SuppressLint("HandlerLeak")
 private Handler handler=new Handler(){
     @Override
@@ -58,9 +68,11 @@ private Handler handler=new Handler(){
                 break;
             default:
                 break;
-        };
+        }
     }
 };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,15 +102,22 @@ private Handler handler=new Handler(){
 
 
         });
-        httpModel.post("",Constants.ADD_MTC);
+        intent=getIntent();
+        if (intent.getStringExtra("change")!=null&&!intent.getStringExtra("change").equals("")){
+            httpModel.getmtc(intent.getStringExtra("change"),Constants.GET_MTC);
+        }else {
+            String pk=intent.getStringExtra("pk");
+            if (pk!=null&&!pk.equals("")){
+                String time=intent.getStringExtra("time");
+                httpModel.addmtc(pk,Constants.ADD_MTC,time);
+            }
+        }
         initView();
     }
 
 
     private void initView() {
-        ImageView imselect = findViewById(R.id.im_select);
         ImageView imtake = findViewById(R.id.im_paizhao);
-        imselect.setOnClickListener(this);
         imtake.setOnClickListener(this);
         remindDialog=new RemindDialog(InspectActivity.this);
         ed_remark=findViewById(R.id.ed_inspect_beizhu);
@@ -119,19 +138,27 @@ private Handler handler=new Handler(){
                 InspectActivity.this.finish();
             }
         });
+        RecyclerView rv_pic=findViewById(R.id.rv_pic);
+        rv_pic.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
+        pictureSelectAdapter=new PictureSelectAdapter(InspectActivity.this,imList);
+        rv_pic.setAdapter(pictureSelectAdapter);
+        rv_pic.setHasFixedSize(true);
+        rv_pic.setNestedScrollingEnabled(false);
     }
     private void showView(ElevatorInspect inspect) {
-        ed_remark.setText("");
         tv_dianti.setText(inspect.getElevator_name());
         tv_diantiSn.setText(inspect.getElevator_sn());
         for (int i=0;i<inspect.getMtc_logs().size();i++){
             if (!inspect.getMtc_logs().get(i).isChecked()){
                 tv_showlog.setText(inspect.getMtc_logs().get(i).getContent());
                 checked=i;
+                ed_remark.setText("");
                 rv_title.setText(inspect.getMtc_logs().get(i).getContent());
                 rv_content.setText(inspect.getMtc_logs().get(i).getDemand());
                 if (!inspect.getMtc_logs().get(i).isPhoto()){
                     layout_addPic.setVisibility(View.GONE);
+                }else{
+                    Maxsize=(int)inspect.getMtc_logs().get(i).getPhoto_num();
                 }
                 return;
             }
@@ -140,7 +167,7 @@ private Handler handler=new Handler(){
     }
 
     private void showCommit() {
-        AlertDialog.Builder builder=new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder builder=new AlertDialog.Builder(InspectActivity.this);
         builder.setMessage("所有工单已全部完成，是否提交维保工单？");
         builder.setTitle("提交数据");
 
@@ -148,7 +175,7 @@ private Handler handler=new Handler(){
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                httpModel.commitMtc(inspect.getElevator_pk(),Constants.SUBMIT_MTC);
+                httpModel.commitMtc(inspect.getPk(),Constants.SUBMIT_MTC);
             }
         });
 
@@ -167,6 +194,7 @@ private Handler handler=new Handler(){
                 checked=i;
                 rv_title.setText(inspect.getMtc_logs().get(i).getContent());
                 rv_content.setText(inspect.getMtc_logs().get(i).getDemand());
+                ed_remark.setText(inspect.getMtc_logs().get(i).getLog());
                 if (!inspect.getMtc_logs().get(i).isPhoto()){
                     layout_addPic.setVisibility(View.GONE);
                 }
@@ -177,14 +205,6 @@ private Handler handler=new Handler(){
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
-            //选择照片回调
-            case REQUCODE_SELECT:
-                if (data!=null){
-                    Bitmap map=mPresenter.getBitmap(this, data.getData());
-                    pictureSelectAdapter.addPic(map);
-                    pictureSelectAdapter.notifyDataSetChanged();
-                }
-                break;
             //拍照回调
             case REQUCODE_PAIZHAO:
                 if (data!=null) {
@@ -200,15 +220,16 @@ private Handler handler=new Handler(){
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.im_select:
-                Intent albumIntent = new Intent(Intent.ACTION_PICK, null);
-                albumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                startActivityForResult(albumIntent,REQUCODE_SELECT);
-                break;
             case R.id.im_paizhao:
-                Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                openCameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                startActivityForResult(openCameraIntent,REQUCODE_PAIZHAO);
+                if (pictureSelectAdapter.getPic().size()<Maxsize){
+                    Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    openCameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    startActivityForResult(openCameraIntent,REQUCODE_PAIZHAO);
+                }else{
+                    remindDialog.setContent("当前需要照片数量为"+Maxsize+",请长按删除对应照片后继续添加！");
+                    remindDialog.setTitle("照片以达所需最大");
+                    remindDialog.show();
+                }
                 break;
             case R.id.tv_commit:
                 String remark=ed_remark.getText().toString().trim();
@@ -216,7 +237,11 @@ private Handler handler=new Handler(){
                     Toast.makeText(getApplicationContext(),"备注未填写！",Toast.LENGTH_LONG).show();
                 }else{
                     if (inspect.getMtc_logs().get(checked).isPhoto()){
-                        httpModel.postLogByphoto();
+                        if (pictureSelectAdapter.getPic().size()!=Maxsize){
+                            Toast.makeText(getApplicationContext(),"照片数量不符 "+pictureSelectAdapter.getPic().size()+"/"+Maxsize,Toast.LENGTH_LONG).show();
+                        }else{
+                            httpModel.postLogByphoto(remark,inspect.getMtc_logs().get(checked).getPk(),Constants.ADD_LOG,pictureSelectAdapter.getPic());
+                        }
                     }else{
                         httpModel.postLogNophoto(remark,inspect.getMtc_logs().get(checked).getPk(),Constants.ADD_LOG);
                     }

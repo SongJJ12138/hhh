@@ -1,5 +1,6 @@
 package com.example.maintenanceelevator.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import com.example.maintenanceelevator.R;
@@ -72,11 +73,16 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onComitclick(String str) {
-
+        Intent intent=new Intent(getApplicationContext(), InspectActivity.class);
+        intent.putExtra("change",str);
+        intent.putExtra("pk","");
+        startActivity(intent);
     }
 
     @Override
     public void onConfirmclick(String str) {
-
+        Intent intent=new Intent(getApplicationContext(), ConfirmActivity.class);
+        intent.putExtra("change",str);
+        startActivity(intent);
     }
 }

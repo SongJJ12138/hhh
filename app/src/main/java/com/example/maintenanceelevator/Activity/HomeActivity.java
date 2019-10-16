@@ -2,13 +2,14 @@ package com.example.maintenanceelevator.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import com.example.maintenanceelevator.R;
 import com.next.easynavigation.view.EasyNavigationBar;
 import fragment.ElevatorFragment;
+import fragment.InspectFragment;
 import fragment.MainFragment;
 import fragment.OrderFragment;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         EasyNavigationBar navigationBar = findViewById(R.id.navigationBar);
         fragments.add(new MainFragment());
         fragments.add(new OrderFragment());
+        fragments.add(new InspectFragment());
         navigationBar.titleItems(tabText)
                 .normalIconItems(normalIcon)
                 .selectIconItems(selectIcon)

@@ -34,8 +34,6 @@
         </activity>
         <activity android:name=".Activity.InspectActivity">
         </activity>
-        <activity android:name=".Activity.SelectActivity">
-        </activity>
         <activity android:name=".Activity.HomeActivity">
         </activity>
         <activity android:name=".Activity.BaseActivity">

@@ -16,10 +16,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_15"
-                android:layout_toRightOf="@+id/icon_shift"
                 android:text="日检"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textColor="@color/black"/>
         <TextView
                 android:layout_centerVertical="true"
                 android:text="请选择"

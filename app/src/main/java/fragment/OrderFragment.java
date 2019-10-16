@@ -1,65 +1,60 @@
-package com.example.maintenanceelevator.Activity;
+package fragment;
 
+
+import Adapter.FragmentAdapter;
 import Constans.Constants;
 import Constans.HttpModel;
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.maintenanceelevator.R;
-import fragment.ElevatorFragment;
-import Adapter.FragmentAdapter;
 
 import java.util.ArrayList;
 
-public class ShowActivity extends FragmentActivity implements View.OnClickListener,
-        ViewPager.OnPageChangeListener,ElevatorFragment.OnItemclickListener {
-
+public class OrderFragment extends Fragment implements View.OnClickListener, ViewPager.OnPageChangeListener{
+    private FragmentManager fm;
+    private FragmentAdapter adapter;
     private ViewPager myvirwpager;
     private Button one, two, three,four,five;
     // 指示标签的横坐标
     private float cursorX = 0;
     private Button[] ButtonArgs;
     private ArrayList<Fragment> list;
-    private FragmentAdapter adapter;
     private HttpModel httpModel;
-    private FragmentManager fm;
-    private TextView tv_back;
     @SuppressLint("HandlerLeak")
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
-           switch (msg.what){
-               case 200:
-                   String mtc=(String) msg.obj;
-                   init(mtc);
-                   break;
-               case 400:break;
-               case 404:
-                   Toast.makeText(getApplicationContext(),"服务器异常，未找到维保数据！",Toast.LENGTH_SHORT).show();
-                   ShowActivity.this.finish();
-                   break;
-           }
+            switch (msg.what){
+                case 200:
+                    String mtc=(String) msg.obj;
+                    initData(mtc);
+                    break;
+                case 400:break;
+                case 404:
+                    Toast.makeText(getContext(),"服务器异常，未找到维保数据！",Toast.LENGTH_SHORT).show();
+                    break;
+            }
         }
     };
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show);
-        fm=getSupportFragmentManager();
-        httpModel=new HttpModel(getApplicationContext(), new HttpModel.HttpClientListener() {
+        fm=getFragmentManager();
+        httpModel=new HttpModel(getContext(), new HttpModel.HttpClientListener() {
             @Override
             public void onError() {
                 handler.sendEmptyMessage(404);
@@ -78,7 +73,7 @@ public class ShowActivity extends FragmentActivity implements View.OnClickListen
 
             }
         });
-        SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("config", getApplicationContext().MODE_PRIVATE);;
+        SharedPreferences sharedPreferences=getContext().getSharedPreferences("config", getContext().MODE_PRIVATE);;
         String permission=sharedPreferences.getString("permission","");
         if (!permission.equals("")){
             if (permission.equals("mcompany")){
@@ -87,24 +82,9 @@ public class ShowActivity extends FragmentActivity implements View.OnClickListen
                 httpModel.getmtcsbymcompany(Constants.GET_MTC_BY_PCOMPANY);
             }
         }
-
     }
-
-    private void init(String mtc) {
-        myvirwpager = (ViewPager) findViewById(R.id.myviewpager);
-        one = (Button) findViewById(R.id.one);
-        two = (Button) findViewById(R.id.two);
-        three = (Button) findViewById(R.id.three);
-        four = (Button) findViewById(R.id.four);
-        five = (Button) findViewById(R.id.five);
-        tv_back=findViewById(R.id.title_back);
+    private void initData(String mtc) {
         ButtonArgs = new Button[] { one, two, three ,four,five};
-        tv_back.setOnClickListener(this);
-        one.setOnClickListener(this);
-        two.setOnClickListener(this);
-        three.setOnClickListener(this);
-        four.setOnClickListener(this);
-        five.setOnClickListener(this);
         list = new ArrayList<Fragment>();
         for (int i=0;i<5;i++){
             Fragment fragment=new ElevatorFragment();
@@ -120,7 +100,23 @@ public class ShowActivity extends FragmentActivity implements View.OnClickListen
         resetButtonColor();
         one.setTextColor(Color.BLACK);
     }
-
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.activity_show, container, false);
+        myvirwpager = v.findViewById(R.id.myviewpager);
+        one = v.findViewById(R.id.one);
+        two = v.findViewById(R.id.two);
+        three = v.findViewById(R.id.three);
+        four = v.findViewById(R.id.four);
+        five = v.findViewById(R.id.five);
+        one.setOnClickListener(this);
+        two.setOnClickListener(this);
+        three.setOnClickListener(this);
+        four.setOnClickListener(this);
+        five.setOnClickListener(this);
+        return v;
+    }
     // 设置按钮颜色
     public void resetButtonColor() {
         one.setBackgroundColor(Color.parseColor("#269fef"));
@@ -135,7 +131,6 @@ public class ShowActivity extends FragmentActivity implements View.OnClickListen
         five.setTextColor(Color.WHITE);
 
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -154,43 +149,22 @@ public class ShowActivity extends FragmentActivity implements View.OnClickListen
             case R.id.five:
                 myvirwpager.setCurrentItem(4);
                 break;
-            case R.id.title_back:
-                this.finish();
-                break;
         }
     }
 
     @Override
-    public void onPageScrollStateChanged(int arg0) {
+    public void onPageScrolled(int i, float v, int i1) {
 
     }
 
     @Override
-    public void onPageScrolled(int arg0, float arg1, int arg2) {
-
-    }
-
-    @Override
-    public void onPageSelected(int arg0) {
+    public void onPageSelected(int i) {
         resetButtonColor();
-        ButtonArgs[arg0].setTextColor(Color.BLACK);
-
+        ButtonArgs[i].setTextColor(Color.BLACK);
     }
 
     @Override
-    public void onComitclick(String str) {
-        Intent intent=new Intent(ShowActivity.this, InspectActivity.class);
-        intent.putExtra("change",str);
-        intent.putExtra("pk","");
-        startActivity(intent);
-        this.finish();
-    }
+    public void onPageScrollStateChanged(int i) {
 
-    @Override
-    public void onConfirmclick(String str) {
-        Intent intent=new Intent(ShowActivity.this, ConfirmActivity.class);
-        intent.putExtra("change",str);
-        startActivity(intent);
-        this.finish();
     }
 }

@@ -1,156 +1,82 @@
 package com.example.maintenanceelevator.Activity;
 
-import Bean.Elevator;
-import Constans.Constants;
-import Constans.HttpModel;
-import Dialog.EleatorSelectDialog;
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.example.maintenanceelevator.R;
+import com.next.easynavigation.view.EasyNavigationBar;
+import fragment.ElevatorFragment;
+import fragment.MainFragment;
+import fragment.OrderFragment;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-public class HomeActivity extends BaseActivity implements View.OnClickListener {
-    private TextView tv_dianti;
-//    private Button bt_yulan;
-    private EleatorSelectDialog eleatorSelectDialog;
-    private HttpModel httpModel;
-    private String pk;
-    @SuppressLint("HandlerLeak")
-    private Handler handler=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what){
-                case 404:
-                    Toast.makeText(getApplicationContext(),"未找到电梯数据，请检查网络！",Toast.LENGTH_SHORT).show();
-                    break;
-                case 100:
-                    String elevayors=(String) msg.obj;
-                    List<Elevator> elevatorsList=new ArrayList<>();
-                    JSONArray array  = JSONObject.parseArray(elevayors);
-                    Iterator<Object> iterator = array.iterator();
-                    while(iterator.hasNext()) {
-                        JSONObject obj = (JSONObject)  iterator.next();
-                        Elevator elevator=new Elevator();
-                        elevator.setName((String) obj.get("name"));
-                        elevator.setPk((String) obj.get("pk"));
-                        elevator.setSn((String) obj.get("sn"));
-                        elevatorsList.add(elevator);
-                    }
-                    showdialog(elevatorsList);
-                    break;
-                    default:
-                        break;
-            }
-        }
-    };
-
-    private void showdialog(List elevatorsList) {
-        eleatorSelectDialog=new EleatorSelectDialog(HomeActivity.this, elevatorsList, new EleatorSelectDialog.onChooseElevatorListener() {
-            @Override
-            public void onChoose(String str,String str2) {
-                tv_dianti.setText(str);
-                onchooseElevator();
-                eleatorSelectDialog.dismiss();
-                pk=str2;
-            }
-        });
-        eleatorSelectDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        eleatorSelectDialog.show();
-    }
-
-    /**
-     * 选择完电梯后操作
-     */
-    private void onchooseElevator() {
-    }
+public class HomeActivity extends BaseActivity implements View.OnClickListener, ElevatorFragment.OnItemclickListener {
+    private String[] tabText = {"首页", "工单", "维保","救援", "我的"};
+    //未选中icon
+    private int[] normalIcon = {R.mipmap.main_off, R.mipmap.gd_off, R.mipmap.wb_off, R.mipmap.jiu_off,R.mipmap.mine_off};
+    //选中时icon
+    private int[] selectIcon = {R.mipmap.main_on, R.mipmap.gd_on, R.mipmap.wb_on, R.mipmap.jiu_on,R.mipmap.ming_on};
+    private List<android.support.v4.app.Fragment> fragments = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         initView();
-        httpModel=new HttpModel(getApplicationContext(),new HttpModel.HttpClientListener() {
-            @Override
-            public void onError() {
-                handler.sendEmptyMessage(404);
-            }
 
-            @Override
-            public void onSuccess(Object obj) {
-                Message msg=new Message();
-                msg.obj=obj;
-                msg.what=100;
-                handler.sendMessage(msg);
-            }
-
-            @Override
-            public void onaddWithCommit(String type) {
-
-            }
-
-        });
     }
 
     private void initView() {
-        tv_dianti = findViewById(R.id.tv_dianti);
-//        TextView tv_type = findViewById(R.id.tv_type);
-//        TextView tv_time = findViewById(R.id.tv_time);
-//        TextView tv_people = findViewById(R.id.tv_people);
-        Button bt_select = findViewById(R.id.bt_select);
-//        bt_yulan = findViewById(R.id.bt_yulan);
-        RelativeLayout bt_gongdan = findViewById(R.id.bt_gongdan);
-        RelativeLayout bt_weibao = findViewById(R.id.bt_weibao);
-        RelativeLayout bt_wode = findViewById(R.id.bt_wode);
-        bt_select.setOnClickListener(this);
-//        bt_yulan .setOnClickListener(this);
-        bt_gongdan.setOnClickListener(this);
-        bt_weibao.setOnClickListener(this);
-        bt_wode.setOnClickListener(this);
+        EasyNavigationBar navigationBar = findViewById(R.id.navigationBar);
+        fragments.add(new MainFragment());
+        fragments.add(new OrderFragment());
+        navigationBar.titleItems(tabText)
+                .normalIconItems(normalIcon)
+                .selectIconItems(selectIcon)
+                .fragmentList(fragments)
+                .fragmentManager(getSupportFragmentManager())
+                .build();
+        navigationBar.setMsgPointCount(2, 109);
+        navigationBar.setMsgPointCount(0, 5);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             //选择电梯
-            case R.id.bt_select:
-                httpModel.get("", Constants.GETALL_ELEVATOR);
-                break;
+
 //            //预览维保数据
 //            case R.id.bt_yulan:
 //
 //                break;
-            //工单管理
-            case R.id.bt_gongdan:
-                startActivity(new Intent(HomeActivity.this,ShowActivity.class));
-                break;
-            //维保
-            case R.id.bt_weibao:
-                if (!tv_dianti.getText().toString().equals("请选择对应电梯！")){
-                    Intent intent=new Intent(HomeActivity.this,SelectActivity.class);
-                    intent.putExtra("pk",pk);
-                    startActivity(intent);
-                }else {
-                    Toast.makeText(getApplicationContext(),"您还未选择电梯！",Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.bt_wode:
-                startActivity(new Intent(HomeActivity.this,MineActivity.class));
-                break;
+//            //工单管理
+//            case R.id.bt_gongdan:
+//                startActivity(new Intent(HomeActivity.this,ShowActivity.class));
+//                break;
+//            //维保
+//            case R.id.bt_weibao:
+//                if (!tv_dianti.getText().toString().equals("请选择对应电梯！")){
+//                    Intent intent=new Intent(HomeActivity.this,SelectActivity.class);
+//                    intent.putExtra("pk",pk);
+//                    startActivity(intent);
+//                }else {
+//                    Toast.makeText(getApplicationContext(),"您还未选择电梯！",Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+//            case R.id.bt_wode:
+//                startActivity(new Intent(HomeActivity.this,MineActivity.class));
+//                break;
         }
+    }
+
+    @Override
+    public void onComitclick(String str) {
+
+    }
+
+    @Override
+    public void onConfirmclick(String str) {
+
     }
 }

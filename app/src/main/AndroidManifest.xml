@@ -32,8 +32,6 @@
         </activity>
         <activity android:name=".Activity.updateIpActivity">
         </activity>
-        <activity android:name=".Activity.ShowActivity">
-        </activity>
         <activity android:name=".Activity.InspectActivity">
         </activity>
         <activity android:name=".Activity.SelectActivity">

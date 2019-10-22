@@ -108,8 +108,8 @@ private Handler handler=new Handler(){
         }else {
             String pk=intent.getStringExtra("pk");
             if (pk!=null&&!pk.equals("")){
-                String time=intent.getStringExtra("time");
-                httpModel.addmtc(pk,Constants.ADD_MTC,time);
+                String type=intent.getStringExtra("type");
+                httpModel.addmtc(pk,Constants.ADD_MTC,type);
             }
         }
         initView();

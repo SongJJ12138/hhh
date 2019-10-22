@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.maintenanceelevator.R;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,7 +30,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     private EleatorSelectDialog eleatorSelectDialog;
     private TextView tv_dianti;
     private HttpModel httpModel;
-    private String pk;
     @SuppressLint("HandlerLeak")
     private Handler handler=new Handler(){
         @Override
@@ -110,7 +110,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 tv_dianti.setText(str);
                 onchooseElevator();
                 eleatorSelectDialog.dismiss();
-                pk=str2;
+                EventBus.getDefault().postSticky(str2);
             }
         });
         eleatorSelectDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

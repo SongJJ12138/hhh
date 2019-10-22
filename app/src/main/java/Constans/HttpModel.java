@@ -78,14 +78,14 @@ public class HttpModel {
                 });
     }
 
-    public void addmtc(String pk,String url,String time){
+    public void addmtc(String pk,String url,String type){
         String SESSION_SERVER_HEAD =sharedPreferences.getString("csrftoken","") ;
         String SESSION_SERVER_ID = sharedPreferences.getString("sessionid","");
         String cookie="csrftoken=" + SESSION_SERVER_HEAD+";sessionid="+SESSION_SERVER_ID;
         FormBody formBody = new FormBody.Builder()
                 .add("username", sharedPreferences.getString("name",""))
                 .add("elevator_pk", pk)
-                .add("type",time).build();
+                .add("type",type).build();
         Request request = new Request.Builder()
                 .url(BaseUrl+url)
                 .addHeader("Cookie",cookie)

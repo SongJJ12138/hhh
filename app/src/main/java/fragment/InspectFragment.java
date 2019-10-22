@@ -23,6 +23,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.maintenanceelevator.Activity.InspectActivity;
 import com.example.maintenanceelevator.R;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -60,9 +62,20 @@ public class InspectFragment extends Fragment {
             };
         }
     };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+    @Subscribe
+    public void GetPK(String pk) {
+        this.pk=pk;
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         httpModel=new HttpModel(getContext(),new HttpModel.HttpClientListener(){
             @Override
             public void onError() {
@@ -97,7 +110,7 @@ public class InspectFragment extends Fragment {
             @Override
             public void onclick(String type) {
                 Intent intent=new Intent(getContext(), InspectActivity.class);
-                intent.putExtra("time",type);
+                intent.putExtra("type",type);
                 intent.putExtra("pk",pk);
                 intent.putExtra("change","");
                 startActivity(intent);

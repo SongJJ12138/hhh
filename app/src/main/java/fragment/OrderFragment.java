@@ -29,6 +29,7 @@ public class OrderFragment extends Fragment implements View.OnClickListener, Vie
     private FragmentAdapter adapter;
     private ViewPager myvirwpager;
     private Button one, two, three,four,five;
+    private  SharedPreferences sharedPreferences;
     // 指示标签的横坐标
     private float cursorX = 0;
     private Button[] ButtonArgs;
@@ -73,16 +74,25 @@ public class OrderFragment extends Fragment implements View.OnClickListener, Vie
 
             }
         });
-        SharedPreferences sharedPreferences=getContext().getSharedPreferences("config", getContext().MODE_PRIVATE);;
-        String permission=sharedPreferences.getString("permission","");
-        if (!permission.equals("")){
-            if (permission.equals("mcompany")){
-                httpModel.getmtcsbymcompany(Constants.GET_MTC_BY_MCOMPANY);
-            }else{
-                httpModel.getmtcsbymcompany(Constants.GET_MTC_BY_PCOMPANY);
+        sharedPreferences=getContext().getSharedPreferences("config", getContext().MODE_PRIVATE);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            String permission=sharedPreferences.getString("permission","");
+            if (!permission.equals("")){
+                if (permission.equals("mcompany")){
+                    httpModel.getmtcsbymcompany(Constants.GET_MTC_BY_MCOMPANY);
+                }else{
+                    httpModel.getmtcsbymcompany(Constants.GET_MTC_BY_PCOMPANY);
+                }
             }
         }
     }
+
+
     private void initData(String mtc) {
         ButtonArgs = new Button[] { one, two, three ,four,five};
         list = new ArrayList<Fragment>();

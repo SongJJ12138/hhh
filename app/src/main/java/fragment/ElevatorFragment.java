@@ -4,6 +4,7 @@ import Adapter.MtcBymCompanyAdapter;
 import Bean.ElevatorMTC;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -46,6 +47,7 @@ private OnItemclickListener onItemclickListener;
         list.clear();
         super.onDestroyView();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

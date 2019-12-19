@@ -32,7 +32,7 @@ public class MtcBymCompanyAdapter extends RecyclerView.Adapter<MtcBymCompanyAdap
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view= LayoutInflater.from(context).inflate(R.layout.item_selectlog,viewGroup,false);
+        View view= LayoutInflater.from(context).inflate(R.layout.item_selectorder,viewGroup,false);
         return new VH(view);
     }
 
@@ -53,6 +53,8 @@ public class MtcBymCompanyAdapter extends RecyclerView.Adapter<MtcBymCompanyAdap
                 break;
             default:break;
         }
+        vh.tv_work.setText(list.get(i).getMcompany_staff());
+        vh.tv_safe.setText(list.get(i).getPcompany_staff());
         vh.tv_title.setText(list.get(i).getElevator_name());
         SharedPreferences sharedPreferences=context.getSharedPreferences("config", context.MODE_PRIVATE);
         String permission=sharedPreferences.getString("permission","");
@@ -91,11 +93,15 @@ public class MtcBymCompanyAdapter extends RecyclerView.Adapter<MtcBymCompanyAdap
         private TextView tv_title;
         private TextView tv_staute;
         private LinearLayout layout;
+        private TextView tv_work;
+        private TextView tv_safe;
         public VH(@NonNull View itemView) {
             super(itemView);
             tv_title=itemView.findViewById(R.id.tv_selectlog);
             tv_staute=itemView.findViewById(R.id.tv_logStatus);
             layout=itemView.findViewById(R.id.layout_selectlog);
+            tv_work=itemView.findViewById(R.id.tv_workName);
+            tv_safe=itemView.findViewById(R.id.tv_safeName);
         }
     }
 }

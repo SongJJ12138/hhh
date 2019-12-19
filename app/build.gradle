@@ -5,7 +5,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.maintenanceelevator"
-        minSdkVersion 16
+        minSdkVersion 26
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -41,4 +41,12 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     //fastJson
     implementation 'com.alibaba:fastjson:1.2.48'
+    //轮播图
+    implementation 'com.youth.banner:banner:1.4.10'
+    //图片加载
+    implementation("com.github.bumptech.glide:glide:4.9.0") {
+        exclude group: "com.android.support"
+    }
+    //cardView
+    implementation 'com.github.bigmanLau:CardviewFix:1.0.3'
 }

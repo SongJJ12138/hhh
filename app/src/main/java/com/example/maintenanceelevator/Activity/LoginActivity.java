@@ -43,7 +43,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 400:
-                    Toast.makeText(getApplicationContext(),"服务器连接失败！",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"登陆失败，请检查用户名密码是否正确！",Toast.LENGTH_SHORT).show();
                     break;
                 case 200:
                     JSONObject jsonObject=JSONObject.parseObject((String)msg.obj);

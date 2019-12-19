@@ -110,6 +110,8 @@ private Handler handler=new Handler(){
             if (pk!=null&&!pk.equals("")){
                 String type=intent.getStringExtra("type");
                 httpModel.addmtc(pk,Constants.ADD_MTC,type);
+            }else{
+                handler.sendEmptyMessage(404);
             }
         }
         initView();
@@ -129,7 +131,7 @@ private Handler handler=new Handler(){
         rv_title=findViewById(R.id.rv_title);
         tv_diantiSn=findViewById(R.id.tv_diantiSn);
         tv_dianti=findViewById(R.id.tv_dianti);
-        TextView tv_back=findViewById(R.id.title_back);
+        RelativeLayout tv_back=findViewById(R.id.title_back);
         tv_commit.setOnClickListener(this);
         bt_select.setOnClickListener(this);
         tv_back.setOnClickListener(new View.OnClickListener() {

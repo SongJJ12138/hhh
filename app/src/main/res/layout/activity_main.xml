@@ -34,7 +34,7 @@
                 android:padding="5dp"
                 android:text="鲁班物联智慧电梯\n安全运行监测系统"
                 android:textColor="@color/white"
-                android:textSize="35sp"
+                android:textSize="30sp"
                 android:textStyle="bold"/>
 
         <!--用户名行布局-->

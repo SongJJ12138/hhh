@@ -5,6 +5,24 @@
               android:layout_height="match_parent"
               android:background="@mipmap/homebackground"
               android:orientation="vertical">
+    <RelativeLayout
+            android:id="@+id/title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/blue"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="0dp">
+        <include layout="@layout/common_back_btn" />
+        <TextView
+                android:id="@+id/tv_lock_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="维保种类"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+    </RelativeLayout>
 <LinearLayout
         android:layout_marginTop="@dimen/margin_20"
         android:layout_width="match_parent"

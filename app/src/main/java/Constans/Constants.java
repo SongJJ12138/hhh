@@ -26,4 +26,6 @@ public class Constants {
     public static final String GET_MTC ="api/get_mtc/";
     public static final String GET_MTC_BY_PCOMPANY = "api/get_mtcs_by_pcompanystaffpk/";
     public static final String CONFIRM = "api/confirm_mtc/";
+    public static final String GET_HELPORDER ="api/get_rescueorders_by_mcompanystaff/" ;
+    public static final String UPDATE_HELP = "api/update_rescueorder/";
 }

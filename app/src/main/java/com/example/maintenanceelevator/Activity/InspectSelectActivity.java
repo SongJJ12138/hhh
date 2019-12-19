@@ -1,28 +1,22 @@
-package fragment;
+package com.example.maintenanceelevator.Activity;
 
-import Adapter.ElevatorTypeAdapter;
-import Bean.ElevatorType;
-import Constans.Constants;
-import Constans.HttpModel;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.example.maintenanceelevator.Activity.InspectActivity;
 import com.example.maintenanceelevator.R;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -30,7 +24,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class InspectFragment extends Fragment {
+import Adapter.ElevatorTypeAdapter;
+import Bean.ElevatorType;
+import Constans.Constants;
+import Constans.HttpModel;
+
+public class InspectSelectActivity extends BaseActivity {
     private HttpModel httpModel;
     private RecyclerView rv_selectType;
     private ElevatorTypeAdapter adapter;
@@ -42,7 +41,7 @@ public class InspectFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 404:
-                    Toast.makeText(getContext(),"未找到电梯数据，请检查网络！",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"未找到电梯数据，请检查网络！",Toast.LENGTH_SHORT).show();
                     break;
                 case 100:
                     String elevayors=(String) msg.obj;
@@ -62,21 +61,16 @@ public class InspectFragment extends Fragment {
             };
         }
     };
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-    @Subscribe
+    @Subscribe(sticky = true)
     public void GetPK(String pk) {
         this.pk=pk;
     }
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_select);
         EventBus.getDefault().register(this);
-        httpModel=new HttpModel(getContext(),new HttpModel.HttpClientListener(){
+        httpModel=new HttpModel(getApplicationContext(),new HttpModel.HttpClientListener(){
             @Override
             public void onError() {
                 handler.sendEmptyMessage(404);
@@ -97,19 +91,25 @@ public class InspectFragment extends Fragment {
 
         });
         httpModel.get("", Constants.GETELEVATOR_TYPE);
+        initView();
     }
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_select, container, false);
-        rv_selectType=v.findViewById(R.id.rv_selectType);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+
+    private void initView() {
+        rv_selectType=findViewById(R.id.rv_selectType);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         layoutManager.setOrientation(OrientationHelper. VERTICAL);
         rv_selectType.setLayoutManager(layoutManager);
-        adapter=new ElevatorTypeAdapter(getContext(),typeList, new ElevatorTypeAdapter.OnclickListener(){
+        RelativeLayout bt_back=findViewById(R.id.title_back);
+        bt_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InspectSelectActivity.this.finish();
+            }
+        });
+        adapter=new ElevatorTypeAdapter(getApplicationContext(),typeList, new ElevatorTypeAdapter.OnclickListener(){
             @Override
             public void onclick(String type) {
-                Intent intent=new Intent(getContext(), InspectActivity.class);
+                Intent intent=new Intent(getApplicationContext(), InspectActivity.class);
                 intent.putExtra("type",type);
                 intent.putExtra("pk",pk);
                 intent.putExtra("change","");
@@ -117,7 +117,10 @@ public class InspectFragment extends Fragment {
             }
         });
         rv_selectType.setAdapter(adapter);
-        return v;
     }
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

@@ -5,12 +5,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 import com.zhy.http.okhttp.cookie.CookieJarImpl;
 import com.zhy.http.okhttp.cookie.store.CookieStore;
+
+import Bean.helpOrder;
 import okhttp3.*;
 
 import java.io.ByteArrayOutputStream;
@@ -370,6 +373,77 @@ public class HttpModel {
         }
         return files;
     }
+
+    public void getHelpOrder(String url) {
+        String SESSION_SERVER_HEAD =sharedPreferences.getString("csrftoken","") ;
+        String SESSION_SERVER_ID = sharedPreferences.getString("sessionid","");
+        String cookie="csrftoken=" + SESSION_SERVER_HEAD+";sessionid="+SESSION_SERVER_ID;
+        String urlk=BaseUrl+url;
+        OkHttpUtils
+                .get()
+                .url(urlk)
+                .addHeader("Cookie",cookie)
+                .addParams("module", String.valueOf(Constants.DEFAULT_MODULE))
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        httpClientListener.onError();
+                    }
+
+                    @Override
+                    public void onResponse(String res, int id) {
+                        Gson gson=new Gson();
+                        List<helpOrder> helpOrders=new ArrayList<>();
+                        if (!res.equals("[]")&&res.contains("elevator_sn")){
+                            JSONArray array=JSONArray.parseArray(res);
+                            for (int i=0;i<array.size();i++){
+                                helpOrder helpOrder=gson.fromJson(array.get(i).toString(), helpOrder.class);
+                                helpOrders.add(helpOrder);
+                            }
+                            httpClientListener.onSuccess(helpOrders);
+                        } else {
+                            httpClientListener.onaddWithCommit("");
+                        }
+                    }
+                });
+    }
+
+    public void updateHelp(helpOrder order,String decr,String  url) {
+        String SESSION_SERVER_HEAD =sharedPreferences.getString("csrftoken","") ;
+        String SESSION_SERVER_ID = sharedPreferences.getString("sessionid","");
+        String cookie="csrftoken=" + SESSION_SERVER_HEAD+";sessionid="+SESSION_SERVER_ID;
+        FormBody formBody = new FormBody.Builder()
+                .add("pk", order.getId())
+                .add("response_progress", order.getResponse_progress())
+                .add("rescue_progress", order.getRescue_progress())
+                .add("descr", decr)
+                .build();
+        Request request = new Request.Builder()
+                .url(BaseUrl+url)
+                .addHeader("cookie",cookie)
+                .post(formBody)
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                httpClientListener.onError();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String res=response.body().string();
+                JSONObject jsonObject=JSONObject.parseObject(res);
+                if (jsonObject.getInteger("code")==200){
+                    httpClientListener.onSuccess(response);
+                }else {
+                    httpClientListener.onError();
+                }
+            }
+        });
+    }
+
     public interface HttpClientListener{
         void onError();
         void onSuccess(Object obj);

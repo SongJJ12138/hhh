@@ -77,7 +77,7 @@ public class ConfirmActivity extends BaseActivity implements View.OnClickListene
     }
     private void initView(ElevatorInspect inspect) {
         //初始化页面，默认第一项
-        TextView tv_back = findViewById(R.id.title_back);
+        RelativeLayout tv_back = findViewById(R.id.title_back);
         TextView tv_confirm = findViewById(R.id.tv_commit);
         TextView tv_dianti = findViewById(R.id.tv_dianti);
         TextView tv_diantiSn = findViewById(R.id.tv_diantiSn);

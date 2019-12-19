@@ -7,6 +7,7 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.maintenanceelevator.R;
@@ -15,7 +16,7 @@ public class updateIpActivity extends BaseActivity implements View.OnClickListen
     private EditText ed_ip;
     private EditText ed_duankou;
     private Button bt_next;
-    private TextView tv_back;
+    private RelativeLayout tv_back;
     private SharedPreferences sharedPreferences;
 
     @Override

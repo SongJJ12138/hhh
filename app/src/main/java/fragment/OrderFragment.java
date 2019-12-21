@@ -5,6 +5,7 @@ import Adapter.FragmentAdapter;
 import Constans.Constants;
 import Constans.HttpModel;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class OrderFragment extends Fragment implements View.OnClickListener, Vie
     private ViewPager myvirwpager;
     private Button one, two, three,four,five;
     private  SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
     // 指示标签的横坐标
     private float cursorX = 0;
     private Button[] ButtonArgs;
@@ -75,6 +77,7 @@ public class OrderFragment extends Fragment implements View.OnClickListener, Vie
             }
         });
         sharedPreferences=getContext().getSharedPreferences("config", getContext().MODE_PRIVATE);
+        editor=sharedPreferences.edit();
     }
 
     @Override
@@ -97,13 +100,12 @@ public class OrderFragment extends Fragment implements View.OnClickListener, Vie
         ButtonArgs = new Button[] { one, two, three ,four,five};
         list = new ArrayList<Fragment>();
         for (int i=0;i<5;i++){
-            Fragment fragment=new ElevatorFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("mtc", mtc);
-            bundle.putString("type", i+"");
-            fragment.setArguments(bundle);
+            ElevatorFragment fragment=new ElevatorFragment();
+            fragment.setValue(mtc,i+"");
             list.add(fragment);
         }
+        editor.putString("mtc",mtc);
+        editor.commit();
         adapter = new FragmentAdapter(fm, list);
         myvirwpager.setAdapter(adapter);
         myvirwpager.setOnPageChangeListener(this);

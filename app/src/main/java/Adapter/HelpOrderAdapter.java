@@ -60,11 +60,11 @@ public class HelpOrderAdapter extends RecyclerView.Adapter<HelpOrderAdapter.VH>{
                 vh.tv_status.setText("救援在途！");
                 vh.tv_status.setTextColor(Color.YELLOW);
                 break;
-            case "rescue_progress_arriver":
+            case "rescue_progress_arrived":
                 vh.tv_status.setText("到达现场！");
                 vh.tv_status.setTextColor(Color.YELLOW);
                 break;
-            case "rescue_progress_resuing":
+            case "rescue_progress_rescuing":
                 vh.tv_status.setText("救援中！");
                 vh.tv_status.setTextColor(Color.GREEN);
                 break;
@@ -84,6 +84,7 @@ public class HelpOrderAdapter extends RecyclerView.Adapter<HelpOrderAdapter.VH>{
     }
 
     public void setList(List<helpOrder> helpOrderList) {
+        list.clear();
         list.addAll(helpOrderList);
         notifyDataSetChanged();
     }

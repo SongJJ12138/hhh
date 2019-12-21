@@ -3,6 +3,7 @@ package fragment;
 import Adapter.MtcBymCompanyAdapter;
 import Bean.ElevatorMTC;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,12 @@ import java.util.List;
 public class ElevatorFragment extends Fragment {
 private List<ElevatorMTC> list=new ArrayList<>();
 private OnItemclickListener onItemclickListener;
+    private String mtc;
+    private String type ;
+    public void setValue(String mt,String type){
+        this.mtc=mt;
+        this.type=type;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -52,10 +59,12 @@ private OnItemclickListener onItemclickListener;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Bundle bundle = getArguments();
-        String mtc = bundle.getString("mtc");
-        String type = bundle.getString("type");
-        JSONArray array = JSONObject.parseArray(mtc);
+//        Bundle bundle = getArguments();
+//         mtc = bundle.getString("mtc");
+//         type = bundle.getString("type");
+        SharedPreferences sharedPreferences=getContext().getSharedPreferences("config", getContext().MODE_PRIVATE);
+        String myc=sharedPreferences.getString("mtc","");
+        JSONArray array = JSONObject.parseArray(myc);
         Iterator<Object> iterator = array.iterator();
         while (iterator.hasNext()) {
             JSONObject obj = (JSONObject) iterator.next();

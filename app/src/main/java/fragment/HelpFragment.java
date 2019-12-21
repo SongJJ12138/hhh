@@ -43,7 +43,7 @@ public class HelpFragment extends Fragment implements PostDialog.onChooseListene
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 400:
-                    Toast.makeText(getContext(),"由于网络愿意上传失败！",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(),"由于网络原因上传失败！",Toast.LENGTH_LONG).show();
                     break;
                 case 200:
                     if (postDialog.isShowing()){
@@ -51,7 +51,13 @@ public class HelpFragment extends Fragment implements PostDialog.onChooseListene
                     }else {
                         chooseDialog.dismiss();
                     }
+                    updateDate();
                     Toast.makeText(getContext(),"救援状态已改变！",Toast.LENGTH_LONG).show();
+                    break;
+                case 300:
+                    List<helpOrder> list= (List<helpOrder>) msg.obj;
+                    adapter.setList(list);
+                    adapter.notifyDataSetChanged();
                     break;
                 case 100:
                     order= (helpOrder) msg.obj;
@@ -67,10 +73,10 @@ public class HelpFragment extends Fragment implements PostDialog.onChooseListene
                             case "rescue_progress_on_the_way":
                                 postDialog.settitle("是否到达");
                                 break;
-                            case "rescue_progress_arriver":
+                            case "rescue_progress_arrived":
                                 postDialog.settitle("是否救援");
                                 break;
-                            case "rescue_progress_resuing":
+                            case "rescue_progress_rescuing":
                                 postDialog.settitle("是否完成");
                                 break;
                         }
@@ -82,6 +88,11 @@ public class HelpFragment extends Fragment implements PostDialog.onChooseListene
             };
         }
     };
+
+    private void updateDate() {
+        httpModel.getHelpOrder(Constants.GET_HELPORDER);
+
+    }
 
     @Override
     public void onDestroy() {
@@ -105,17 +116,20 @@ public class HelpFragment extends Fragment implements PostDialog.onChooseListene
         httpModel=new HttpModel(getContext(),new HttpModel.HttpClientListener(){
             @Override
             public void onError() {
-                handler.sendEmptyMessage(200);
+                handler.sendEmptyMessage(400);
             }
 
             @Override
             public void onSuccess(Object obj) {
-                handler.sendEmptyMessage(200);
+                Message msg=new Message();
+                msg.obj=obj;
+                msg.what=300;
+                handler.sendMessage(msg);
             }
 
             @Override
             public void onaddWithCommit(String type) {
-
+                handler.sendEmptyMessage(200);
             }
 
         });
@@ -123,7 +137,7 @@ public class HelpFragment extends Fragment implements PostDialog.onChooseListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_select, container, false);
+        View v = inflater.inflate(R.layout.fragment_help, container, false);
         rv_selectType=v.findViewById(R.id.rv_selectType);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(OrientationHelper. VERTICAL);
@@ -143,6 +157,23 @@ public class HelpFragment extends Fragment implements PostDialog.onChooseListene
 
     @Override
     public void onChoose(String desc) {
+        switch (order.getRescue_progress()){
+            case "rescue_progress_waiting":
+               order.setRescue_progress("rescue_progress_responded");
+                break;
+            case "rescue_progress_responded":
+                order.setRescue_progress("rescue_progress_on_the_way");
+                break;
+            case "rescue_progress_on_the_way":
+                order.setRescue_progress("rescue_progress_arrived");
+                break;
+            case "rescue_progress_arrived":
+                order.setRescue_progress("rescue_progress_rescuing");
+                break;
+            case "rescue_progress_rescuing":
+                order.setRescue_progress("rescue_progress_done");
+                break;
+        }
         httpModel.updateHelp(order, desc, Constants.UPDATE_HELP);
     }
 }

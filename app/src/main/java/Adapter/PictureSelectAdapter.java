@@ -70,7 +70,9 @@ public class PictureSelectAdapter extends RecyclerView.Adapter<PictureSelectAdap
         });
     }
 
-
+public void clearPic(){
+        list.clear();
+}
     @Override
     public int getItemCount() {
         return list.size();

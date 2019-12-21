@@ -169,7 +169,7 @@ public class HttpModel {
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM);
         for (File file:files){
-            builder.addFormDataPart("photo", "photo", RequestBody.create(MediaType.parse("image/jpg"), file));
+            builder.addFormDataPart("photo", file.getName(),RequestBody.create(MediaType.parse("image/jpg"), file));
         }
         builder .addFormDataPart("pk", pk);
         builder .addFormDataPart("log", remark);
@@ -436,7 +436,7 @@ public class HttpModel {
                 String res=response.body().string();
                 JSONObject jsonObject=JSONObject.parseObject(res);
                 if (jsonObject.getInteger("code")==200){
-                    httpClientListener.onSuccess(response);
+                    httpClientListener.onaddWithCommit("ok");
                 }else {
                     httpClientListener.onError();
                 }

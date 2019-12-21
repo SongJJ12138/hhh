@@ -148,6 +148,8 @@ private Handler handler=new Handler(){
         rv_pic.setNestedScrollingEnabled(false);
     }
     private void showView(ElevatorInspect inspect) {
+        pictureSelectAdapter.clearPic();
+        pictureSelectAdapter.notifyDataSetChanged();
         tv_dianti.setText(inspect.getElevator_name());
         tv_diantiSn.setText(inspect.getElevator_sn());
         for (int i=0;i<inspect.getMtc_logs().size();i++){
@@ -160,7 +162,8 @@ private Handler handler=new Handler(){
                 if (!inspect.getMtc_logs().get(i).isPhoto()){
                     layout_addPic.setVisibility(View.GONE);
                 }else{
-                    Maxsize=(int)inspect.getMtc_logs().get(i).getPhoto_num();
+                    Maxsize = new Double((Double) inspect.getMtc_logs().get(i).getPhoto_num()).intValue();
+                    layout_addPic.setVisibility(View.VISIBLE);
                 }
                 return;
             }
